@@ -33,26 +33,7 @@ class TTTAgent:
         if winner is not None:
             return self.get_score(winner)
 
-        if is_maximizing_player:
-            best_score = float('-inf')
-            for x in range(0, 3):
-                for y in range(0, 3):
-                    if board[x][y] is None:
-                        board[x][y] = self.marker_type
-                        move_score = self.minimax(board, False, moves + 1)
-                        board[x][y] = None
-                        best_score = max(move_score, best_score)
-            return best_score
-        else:
-            best_score = float('inf')
-            for x in range(0, 3):
-                for y in range(0, 3):
-                    if board[x][y] is None:
-                        board[x][y] = self.opponent_marker_type
-                        move_score = self.minimax(board, True, moves + 1)
-                        board[x][y] = None
-                        best_score = min(move_score, best_score)
-            return best_score
+        return self.traverse_for_best_score(board, is_maximizing_player, moves)
 
     def traverse_for_best_score(self, board, is_maximizing_player, moves):
         best_score = float('-inf') if is_maximizing_player else float('inf')
@@ -60,7 +41,7 @@ class TTTAgent:
             for y in range(0, 3):
                 if board[x][y] is None:
                     board[x][y] = self.marker_type if is_maximizing_player else self.opponent_marker_type
-                    move_score = self.minimax(board, not is_maximizing_player, moves+1)
+                    move_score = self.minimax(board, not is_maximizing_player, moves + 1)
                     board[x][y] = None
                     best_score = max(move_score, best_score) if is_maximizing_player else min(move_score, best_score)
         return best_score
