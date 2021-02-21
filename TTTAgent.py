@@ -17,15 +17,15 @@ class TTTAgent:
     def find_best_move(self, board, available_positions):
         best_move = None
         best_move_score = float('-inf')
-        for x in range(0, 3):
-            for y in range(0, 3):
-                if board[x][y] is None:
-                    board[x][y] = self.marker_type
-                    move_score = self.minimax(board, False, MAX_MOVES-len(available_positions)+1)
-                    board[x][y] = None
-                    if move_score > best_move_score:
-                        best_move_score = move_score
-                        best_move = (x, y)
+        for pos in available_positions:
+            x = pos[0]
+            y = pos[1]
+            board[x][y] = self.marker_type
+            move_score = self.minimax(board, False, MAX_MOVES - len(available_positions) + 1)
+            board[x][y] = None
+            if move_score > best_move_score:
+                best_move_score = move_score
+                best_move = pos
         return best_move
 
     def minimax(self, board, is_maximizing_player, moves):
