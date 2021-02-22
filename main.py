@@ -1,4 +1,5 @@
 from TTTAgent import TTTAgent
+from game_gui import GameGui
 from tictactoe import TicTacToe, Marker
 
 
@@ -28,6 +29,10 @@ def play_tic_tac_toe():
     print("Thanks for playing!")
 
 
+def gui_tic_tac_toe():
+    game = TicTacToe()
+    GameGui(game)
+
 def get_user_input():
     print("Coordinates: ", end='')
     position = input()
@@ -38,7 +43,7 @@ def get_user_input():
 
 
 def main():
-    play_tic_tac_toe()
+    gui_tic_tac_toe()
 
 
 if __name__ == '__main__':

@@ -15,6 +15,7 @@ class TicTacToe:
     finished = False
     turn = None
     moves = 0
+    winner = None
 
     def __init__(self):
         self.board = [
@@ -36,6 +37,7 @@ class TicTacToe:
         winner = TicTacToe.check_win(self.board, self.moves)
         if winner is not None:
             self.finished = True
+            self.winner = winner
             print(f'{winner} is the winner!!')
             return
 

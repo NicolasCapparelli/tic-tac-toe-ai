@@ -1,7 +1,6 @@
-from copy import deepcopy
 from tictactoe import TicTacToe, Marker
 
-MAX_MOVES = 9
+MAX_MOVES = 9  # Total number of possible moves in a tic tac toe game
 
 
 class TTTAgent:
@@ -15,6 +14,12 @@ class TTTAgent:
         self.opponent_marker_type = Marker.x if self.marker_type == Marker.o else Marker.o
 
     def find_best_move(self, board, available_positions):
+        """ For a given game state (board), return the best move by calling minimax on all available positions  """
+
+        # When available_positions is 9, the agent starts. Best opening move is going to a corner.
+        if len(available_positions) == 9:
+            return available_positions[0]
+
         best_move = None
         best_move_score = float('-inf')
         for pos in available_positions:
@@ -22,13 +27,17 @@ class TTTAgent:
             y = pos[1]
             board[x][y] = self.marker_type
             move_score = self.minimax(board, False, MAX_MOVES - len(available_positions) + 1)
-            board[x][y] = None
+            board[x][y] = None  # Undo the move to prevent messing with the actual game board
             if move_score > best_move_score:
                 best_move_score = move_score
                 best_move = pos
         return best_move
 
     def minimax(self, board, is_maximizing_player, moves):
+        """
+            Given a game state, play out all possible scenarios, assigns them a score,
+            and return the highest score of all the scenarios
+        """
         winner = TicTacToe.check_win(board, moves)
         if winner is not None:
             return self.get_score(winner)
@@ -47,15 +56,10 @@ class TTTAgent:
         return best_score
 
     def get_score(self, winner):
+        """ Maps a winner string [ 'x' | 'o' | 'tie'] to a score value based on the agent's marker_type """
         if winner == self.marker_type.value:
             return 1
         elif winner == "tie":
             return 0
         else:
             return -1
-
-"""
-board[pos[0]][pos[1]] = self.marker_type
-available_positions.remove(pos)
-return self.minimax(board, False, available_positions)
-"""
